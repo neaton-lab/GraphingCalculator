@@ -13,6 +13,7 @@ class outputScreen:
     def output(x, y):
         plt.show() #outputs the graph
 
+
 x = [1, 2, 3, 4, 5] #testing
 y = x #testing
 outputScreen.xyplot(x, y) #testing
