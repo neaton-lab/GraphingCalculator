@@ -1,26 +1,20 @@
 # Carly Middleton
-# basic user input file for x value 
+# receives user input including functions
 
 class Input:
-
-     def __init__(self, x):
-         self.x = x
+     def __init__(self, fx):
+        self.fx = fx
 
      @classmethod
      def get_user_input(self):
-
          while 1:
              try:
-                 self.x = input('Enter x value: ')
-                 self.x = float(self.x)
-                 #print('x val entered:', self.x)
-                 return self(self.x)
+                 self.fx = input('Please enter function: ')
+                 self.fx = lambda x: eval(self.fx)
+                 #print('Function entered:', self.fx)
+                 return self(self.fx)
 
              except:
-                 print('Invalid input. Please enter a number.')
+                 print('Invalid input. Please enter a function.')
                  continue       
-
-#     def pass_to_render(self):
-     
-#             self.x = Input.get_user_input()
-#xVal = Input.get_user_input()
+#func = Input.get_user_input()
