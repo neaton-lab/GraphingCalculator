@@ -1,7 +1,6 @@
 #Brandon Sharp
 #This file plots and outputs the x and y data onto the screen
-#including files can go here
-#this is not complete because I do not know what inputs to get from other files
+#uses data from other files
 import networkx as nx
 import math
 import matplotlib.pyplot as plt

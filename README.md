@@ -12,4 +12,4 @@ Compile the code either through Pycharm, VS Code, or Putty (not sure if putty is
 
 # Python Version, Tools and Libraries
 * The Python versions that can be used is Python 3.9 or Python 3.10.4.
-* The tools and libraries that are used are include networkx as nx, include math, include matplotlib.pyplot as plt, include numpy, and include re.
+* The tools and libraries that are used are import networkx as nx, import math, import matplotlib.pyplot as plt, import numpy, and import re.
