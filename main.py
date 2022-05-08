@@ -3,9 +3,12 @@ import renderFunction
 import outputScreen
 
 def main():
+    xMin = 0
+    xMax = 10
+    xRes = 5
     read = input.Input()
     function = renderFunction.RenderFunction(read)
-    output = function.render(0, 10, 5)
+    output = function.render(xMin, xMax, xRes)
     outputScreen.xyplot(output[0], output[1])
     outputScreen.output(0, 0)
 
