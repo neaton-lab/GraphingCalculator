@@ -9,13 +9,37 @@ Operations should all be either unary (for example trig functions) or communtiti
 """
 class RenderFunction:
     # Takes in a tokenized list or a string
-    def __init__(self, function) -> None:
+    def __init__(self, func) -> None:
         self.y = 0
-        self.exprStack = []
+        self.exprStack = self.__compile().parseString(func, parseAll=True)
         self.variables = {}
+        self.epsilon = 1e-12
+        self.opn = {
+            "+": operator.add,
+            "-": operator.sub,
+            "*": operator.mul,
+            "/": operator.truediv,
+            "^": operator.pow,
+        }
+
+        self.fn = {
+            "sin": math.sin,
+            "cos": math.cos,
+            "tan": math.tan,
+            "exp": math.exp,
+            "abs": abs,
+            "trunc": int,
+            "round": round,
+            "sgn": lambda a: -1 if a < -self.epsilon else 1 if a > self.epsilon else 0,
+            # functionsl with multiple arguments
+            "multiply": lambda a, b: a * b,
+            "hypot": math.hypot,
+            # functions with a variable number of arguments
+            "all": lambda *a: all(a),
+        }
 
     # Complies the function sent into the __init__ into the stack-based format using pyparsing. Code adapted from pyparsing's example code
-    def __compile(self, function) -> None:
+    def __compile(self) -> None:
         global bnf
         if not bnf:
             # Defining common constants
@@ -71,9 +95,46 @@ class RenderFunction:
             else:
                 break
 
+    def __evaluate_stack(self, s):
+        op, num_args = s.pop(), 0
+        if isinstance(op, tuple):
+            op, num_args = op
+        if op == "unary -":
+            return -self.evaluate_stack(s)
+        if op in "+-*/^":
+            # note: operands are pushed onto the stack in reverse order
+            op2 = self.evaluate_stack(s)
+            op1 = self.evaluate_stack(s)
+            return self.opn[op](op1, op2)
+        elif op == "PI":
+            return math.pi  # 3.1415926535
+        elif op == "E":
+            return math.e  # 2.718281828
+        elif op in self.fn:
+            # note: args are pushed onto the stack in reverse order
+            args = reversed([self.evaluate_stack(s) for _ in range(num_args)])
+            return self.fn[op](*args)
+        elif op[0].isalpha():
+            self.variables.append(op)
+        else:
+            # try to evaluate as int first, then as float if int fails
+            try:
+                return int(op)
+            except ValueError:
+                return float(op)
+
     # Outputs a 2d list for input into matplotlib. The xMin and xMax parameters define the smallest and largest inputs, and xRes defines the amount of points that will be generated, default 20
     def render(self, xMin, xMax, xRes=20) -> list:
         step = (xMax - xMin) / xRes
+        returnVal = []
+        returnX = []
+        returnY = []
+        for x in range(xMin, xMax, step):
+            returnX.append(x)
+            # Calculate y values for each input value
+        returnVal.append(returnX)
+        returnVal.append(returnY)
+        return returnVal
 
     pass
 
