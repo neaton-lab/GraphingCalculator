@@ -72,17 +72,17 @@ class RenderFunction:
             atom = (
                 addop[...]
                 + (
-                    (fn_call | pi | e | fnumber | ident).setParseAction(self.pushFirst)
+                    (fn_call | pi | e | fnumber | ident).setParseAction(self.__pushFirst)
                     | Group(lpar + expr + rpar)
                 )
-            ).setParseAction(self.pushUnaryMinus)
+            ).setParseAction(self.__pushUnaryMinus)
 
             # by defining exponentiation as "atom [ ^ factor ]..." instead of "atom [ ^ atom ]...", we get right-to-left
             # exponents, instead of left-to-right that is, 2^3^2 = 2^(3^2), not (2^3)^2.
             factor = Forward()
-            factor <<= atom + (expop + factor).setParseAction(self.pushFirst)[...]
-            term = factor + (multop + factor).setParseAction(self.pushFirst)[...]
-            expr <<= term + (addop + term).setParseAction(self.pushFirst)[...]
+            factor <<= atom + (expop + factor).setParseAction(self.__pushFirst)[...]
+            term = factor + (multop + factor).setParseAction(self.__pushFirst)[...]
+            expr <<= term + (addop + term).setParseAction(self.__pushFirst)[...]
             bnf = expr
         return bnf
 
