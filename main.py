@@ -6,7 +6,7 @@ def main():
     xMin = 0
     xMax = 10
     xRes = 5
-    read = input.Input()
+    read = input.Input('Enter the function: ')
     function = renderFunction.RenderFunction(read)
     output = function.render(xMin, xMax, xRes)
     outputScreen.xyplot(output[0], output[1])
