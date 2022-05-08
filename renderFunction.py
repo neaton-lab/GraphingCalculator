@@ -1,3 +1,4 @@
+from outputScreen import outputScreen
 from pyparsing import (Literal, CaselessLiteral, CaselessKeyword, Word, Combine, Group, Optional,
                        ZeroOrMore, Forward, nums, alphas, oneOf, Suppress, delimitedList, Regex)
 import math
@@ -132,10 +133,20 @@ class RenderFunction:
         for x in range(xMin, xMax, step):
             returnX.append(x)
             # Calculate y values for each input value
+            returnY.append(self.__interp(x, self.variables[0]))
         returnVal.append(returnX)
         returnVal.append(returnY)
         return returnVal
 
+    def __interp(self, x, var):
+        stk = self.exprStack.copy()
+        for i in range(len(stk)):
+            if (stk[i] == var):
+                stk[i] = x
+        val = 0
+        while (len(stk) != 0):
+            val += self.__evaluate_stack(stk)
+        return val
     pass
 
 
