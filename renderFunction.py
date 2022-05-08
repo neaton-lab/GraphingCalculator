@@ -41,7 +41,7 @@ class RenderFunction:
 
     # Complies the function sent into the __init__ into the stack-based format using pyparsing. Code adapted from pyparsing's example code
     def __compile(self) -> None:
-        global bnf
+        bnf = 0
         if not bnf:
             # Defining common constants
             e = CaselessKeyword("E")
